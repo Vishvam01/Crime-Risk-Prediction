@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Crime Zone Risk Prediction</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+
+<body id="pageBody" 
+  style="background-image: url('{{ url_for('static', filename='images/default.jpg') }}'); 
+         background-size: cover; background-position: center; transition: background-image 0.6s ease-in-out;">
+  
+  <div class="overlay">
+    <div class="container">
+      <h1>Crime Zone Risk Prediction</h1>
+      <p style="font-size:20px;">Enter the details below to predict the risk level for your area.</p>
+
+      <form action="/predict" method="POST">
+        <!-- City Dropdown -->
+        <label>City:</label>
+        <select id="city" name="city" required onchange="changeBackground()">
+          <option value="">-- Select City --</option>
+          <option>Ahmedabad</option>
+          <option>Chennai</option>
+          <option>Ludhiana</option>
+          <option>Pune</option>
+          <option>Delhi</option>
+          <option>Mumbai</option>
+          <option>Surat</option>
+          <option>Visakhapatnam</option>
+          <option>Bangalore</option>
+          <option>Kolkata</option>
+          <option>Ghaziabad</option>
+          <option>Hyderabad</option>
+          <option>Jaipur</option>
+          <option>Lucknow</option>
+          <option>Bhopal</option>
+          <option>Patna</option>
+          <option>Kanpur</option>
+          <option>Varanasi</option>
+          <option>Nagpur</option>
+          <option>Meerut</option>
+          <option>Thane</option>
+          <option>Indore</option>
+          <option>Rajkot</option>
+          <option>Vasai</option>
+          <option>Agra</option>
+          <option>Kalyan</option>
+          <option>Nashik</option>
+          <option>Srinagar</option>
+          <option>Faridabad</option>
+        </select>
+
+        <!-- Crime Description -->
+        <label>Crime Description:</label>
+        <select name="crime_description" required>
+          <option value="">-- Select Crime Type --</option>
+          <option>IDENTITY THEFT</option>
+          <option>HOMICIDE</option>
+          <option>KIDNAPPING</option>
+          <option>BURGLARY</option>
+          <option>VANDALISM</option>
+          <option>ASSAULT</option>
+          <option>VEHICLE - STOLEN</option>
+          <option>COUNTERFEITING</option>
+          <option>EXTORTION</option>
+          <option>PUBLIC INTOXICATION</option>
+          <option>FRAUD</option>
+          <option>SEXUAL ASSAULT</option>
+          <option>DRUG OFFENSE</option>
+          <option>ARSON</option>
+          <option>CYBERCRIME</option>
+          <option>TRAFFIC VIOLATION</option>
+          <option>SHOPLIFTING</option>
+          <option>ILLEGAL POSSESSION</option>
+          <option>FIREARM OFFENSE</option>
+          <option>ROBBERY</option>
+          <option>DOMESTIC VIOLENCE</option>
+        </select>
+
+        <!-- Day of Week -->
+        <label>Day of Week:</label>
+        <select name="day_of_week" required>
+          <option>Monday</option>
+          <option>Tuesday</option>
+          <option>Wednesday</option>
+          <option>Thursday</option>
+          <option>Friday</option>
+          <option>Saturday</option>
+          <option>Sunday</option>
+        </select>
+
+        <!-- Month -->
+        <label>Month:</label>
+        <select name="month" required>
+          <option value="">-- Select Month --</option>
+          <option value="1">1 (January)</option>
+          <option value="2">2 (February)</option>
+          <option value="3">3 (March)</option>
+          <option value="4">4 (April)</option>
+          <option value="5">5 (May)</option>
+          <option value="6">6 (June)</option>
+          <option value="7">7 (July)</option>
+          <option value="8">8 (August)</option>
+          <option value="9">9 (September)</option>
+          <option value="10">10 (October)</option>
+          <option value="11">11 (November)</option>
+          <option value="12">12 (December)</option>
+        </select>
+
+        <!-- Hour Input -->
+        <label>Hour:</label>
+        <input type="number" name="hour" min="0" max="23" required placeholder="Enter hour (0–23)" />
+
+        <!-- Submit -->
+        <button type="submit">Predict Risk</button>
+      </form>
+
+      {% if prediction_text %}
+        <div class="result">
+          <h2>{{ prediction_text }}</h2>
+          <p>{{ reason_text }}</p>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <script>
+    function changeBackground() {
+      const city = document.getElementById("city").value;
+      const body = document.getElementById("pageBody");
+
+      const basePath = "{{ url_for('static', filename='images/') }}";
+      let imageFile = "default2.jpg"; // fallback image
+
+      switch (city) {
+        case "Delhi": imageFile = "delhi.jpeg"; break;
+        case "Mumbai": imageFile = "mumbai.jpeg"; break;
+        case "Chennai": imageFile = "chennai.jpeg"; break;
+        case "Kolkata": imageFile = "kolkata.jpg"; break;
+        case "Bangalore": imageFile = "bengaluru.jpg"; break;
+        case "Hyderabad": imageFile = "hyderabad.jpg"; break;
+        case "Ahmedabad": imageFile = "ahmedabad.jpeg"; break;
+        case "Ludhiana": imageFile = "ludhiana.jpg"; break;
+        case "Patna": imageFile = "patna.jpg"; break;
+        case "Srinagar": imageFile = "srinagar.jpg"; break;
+        default: imageFile = "default2.jpg";
+      }
+
+      // Apply background change
+      body.style.backgroundImage = `url('${basePath}${imageFile}')`;
+    }
+  </script>
+
+</body>
+</html>
